@@ -1,0 +1,11 @@
+djangorestframework
+markdown
+django-filter
+pandas
+scipy
+numpy
+Django
+coreapi
+django-filter
+django-crispy-forms
+django-guardian
