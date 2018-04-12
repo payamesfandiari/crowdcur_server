@@ -157,4 +157,5 @@ crashlytics-build.properties
 fabric.properties
 .idea/
 db.sqlite3
-
+workinterface/static/
+raw_data/
