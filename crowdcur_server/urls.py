@@ -15,12 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.conf import settings
+from django.conf.urls import url
 
 urlpatterns = [
+    # path('',include('showtasks.urls')),
+    path('workinterface/',include('workinterface.urls')),
+    path('api-auth/',include('rest_framework.urls',namespace='rest_framework')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
 ]
 
-# URL Patterns for REST
-urlpatterns.extend([
-    path('api-auth/',include('rest_framework.urls',namespace='rest_framework'))
-])
+if "debug_toolbar" in settings.INSTALLED_APPS:
+        import debug_toolbar
+
+        urlpatterns = [url(r"^__debug__/", include(debug_toolbar.urls))] + urlpatterns

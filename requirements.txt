@@ -9,3 +9,6 @@ coreapi
 django-filter
 django-crispy-forms
 django-guardian
+pygments
+django-debug-toolbar
+django-extensions
