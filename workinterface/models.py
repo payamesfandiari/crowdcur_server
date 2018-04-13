@@ -16,10 +16,13 @@ class Task(models.Model):
     task_answer_content = models.TextField()
 
     def __str__(self):
-        return "Task type:"+ str(self.task_type.task_description)
+        return "Task uid:"+str(self.id)+"-"+ str(self.task_uid)
 
 
 class Answers(models.Model):
     task = models.ForeignKey(Task,on_delete=models.CASCADE)
     worker = models.ForeignKey('auth.User',on_delete=models.CASCADE)
     content = models.TextField()
+
+    def __str__(self):
+        return "Task uid:"+str(self.task_id)+"-"+ str(self.worker_id)

@@ -27,7 +27,9 @@ class IndexView(LoginRequiredMixin,generic.ListView):
     context_object_name = 'tasks'
 
     def get_queryset(self):
-        return Task.objects.all()[:5]
+        worker = self.request.user
+
+        return Task.objects.exclude(pk__in=Answers.objects.filter(worker=worker).values_list('task',flat=True))[:5]
 
 
 class DetailView(LoginRequiredMixin,generic.DetailView):

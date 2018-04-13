@@ -159,3 +159,7 @@ fabric.properties
 db.sqlite3
 workinterface/static/
 raw_data/
+.DS_Store
+showtasks/migrations/0001_initial.py
+templates/.DS_Store
+workinterface/.DS_Store
