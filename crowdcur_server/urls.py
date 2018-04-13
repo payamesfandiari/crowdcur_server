@@ -20,7 +20,7 @@ from django.conf.urls import url
 
 urlpatterns = [
     # path('',include('showtasks.urls')),
-    path('workinterface/',include('workinterface.urls')),
+    path('',include('workinterface.urls')),
     path('api-auth/',include('rest_framework.urls',namespace='rest_framework')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),

@@ -130,7 +130,7 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
-LOGIN_REDIRECT_URL = '/workinterface/'
+LOGIN_REDIRECT_URL = '/accounts/login/'
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only to Anons

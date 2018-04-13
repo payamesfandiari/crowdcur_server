@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from random import sample
 from django.views import generic
 # Create your views here.
 import json
@@ -21,15 +21,21 @@ def ans(request,pk):
 
 
 class IndexView(LoginRequiredMixin,generic.ListView):
-    login_url = '/login/'
-    redirect_field_name = 'redirect_to'
+    login_url = '/accounts/login/'
     template_name = 'workinterface/index.html'
     context_object_name = 'tasks'
 
     def get_queryset(self):
         worker = self.request.user
+        t = Task.objects.exclude(pk__in=Answers.objects.filter(worker=worker).values_list('task', flat=True))
+        jobs = Job.objects.values_list('id', flat=True)
+        s = []
+        for j in jobs:
+            s.extend(sample(list(t.filter(task_type=j).values_list('id', flat=True)), 5))
+        if len(s) > 10:
+            s = sample(s, 10)
 
-        return Task.objects.exclude(pk__in=Answers.objects.filter(worker=worker).values_list('task',flat=True))[:5]
+        return t.filter(pk__in=s)
 
 
 class DetailView(LoginRequiredMixin,generic.DetailView):

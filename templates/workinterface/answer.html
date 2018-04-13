@@ -8,8 +8,12 @@
         <p>{{ t.img }}</p>
         <img src="{% static image_static %}" alt="My image"/>
         {% endwith %}
-        <form action="{% url 'sendans' task.id %}" method="post">
-        {% csrf_token %}
+    {% elif task.task_type_id == 2 %}
+        <h3>{{ t.tweet }}</h3>
+        <h4>Directed at : {{ t.product }}</h4>
+    {% endif %}
+    <form action="{% url 'sendans' task.id %}" method="post">
+    {% csrf_token %}
 
         <select name="ans" id="answer">
             {% for choice in t.opts %}
@@ -17,8 +21,9 @@
             {% endfor %}
         </select>
         <input type="submit" value="Submit" />
-        </form>
-    {% endif %}
+    </form>
+
+
 <p>Task Payment : {{ task.task_type.task_payment }}</p>
 <p>Task Time : {{ task.task_type.task_time }}</p>
 <p> {{ now|date }}</p>
