@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block content %}
+    <section class="section">
+        <div class="container">
+            {% for task_set in tasks %}
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    {% for t in task_set %}
+
+                       {% include 'workinterface/_work_instance.html' with task=t only %}
+                    {% endfor %}
+                    <div class="col-md-1"></div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+
+{% endblock %}

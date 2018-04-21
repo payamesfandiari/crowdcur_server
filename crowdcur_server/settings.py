@@ -38,9 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'rest_framework',
-    'showtasks.apps.ShowtasksConfig',
+
     'workinterface.apps.WorkinterfaceConfig',
+    'accounts.apps.AccountsConfig',
+    'crowdcur.apps.CrowdcurConfig',
+    'estimators',
     'debug_toolbar',
 
 ]
@@ -130,7 +134,23 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
-LOGIN_REDIRECT_URL = '/accounts/login/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+# Accounts Stuff
+
+# https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
+AUTH_USER_MODEL = 'accounts.User'
+# https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
+# LOGIN_REDIRECT_URL = 'users:redirect'
+# https://docs.djangoproject.com/en/dev/ref/settings/#login-url
+# LOGIN_URL = 'account_login'
+LOGIN_REDIRECT_URL = 'work'
+LOGOUT_REDIRECT_URL = 'index'
+
+
+# REST Framework
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only to Anons
@@ -140,3 +160,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE' : 10
 }
+
+# Crispy-Forms stuff
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+
+
+## Django Estimator Lib

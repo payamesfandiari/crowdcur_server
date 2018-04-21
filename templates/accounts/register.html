@@ -1,0 +1,232 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <section class="section section-header-freebie section-white">
+
+    <div class="container">
+        <div class="content">
+            <div class="row ">
+                <div class="title-area">
+                    <h2>Please Sign Up
+                        <small>It's free and always will be.</small>
+                    </h2>
+                </div>
+            </div>
+           {% crispy form %}
+{##}
+{#            <form role="form">#}
+{##}
+{#                <div class="row">#}
+{#                    <!--Personal Information-->#}
+{#                    <div class="row ">#}
+{#                        <div class="title-area">#}
+{#                            <h3>#}
+{#                                Your Information#}
+{#                            </h3>#}
+{#                            <div class="separator separator-danger">✻</div>#}
+{#                            <div class="description">Please fill out the information below.</div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">#}
+{#                            <div class="row">#}
+{#                                <div class="col-xs-6 col-sm-6 col-md-6">#}
+{#                                    <div class="form-group">#}
+{#                                        <input type="text" name="first_name" id="first_name"#}
+{#                                               class="form-control input-lg"#}
+{#                                               placeholder="First Name" tabindex="1">#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="col-xs-6 col-sm-6 col-md-6">#}
+{#                                    <div class="form-group">#}
+{#                                        <input type="text" name="last_name" id="last_name" class="form-control input-lg"#}
+{#                                               placeholder="Last Name" tabindex="2">#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="form-group">#}
+{#                                <input type="text" name="display_name" id="display_name" class="form-control input-lg"#}
+{#                                       placeholder="Display Name" tabindex="3">#}
+{#                            </div>#}
+{#                            <div class="form-group">#}
+{#                                <input type="email" name="email" id="email" class="form-control input-lg"#}
+{#                                       placeholder="Email Address" tabindex="4">#}
+{#                            </div>#}
+{#                            <div class="row">#}
+{#                                <div class="col-xs-6 col-sm-6 col-md-6">#}
+{#                                    <div class="form-group">#}
+{#                                        <input type="password" name="password" id="password"#}
+{#                                               class="form-control input-lg"#}
+{#                                               placeholder="Password" tabindex="5">#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="col-xs-6 col-sm-6 col-md-6">#}
+{#                                    <div class="form-group">#}
+{#                                        <input type="password" name="password_confirmation" id="password_confirmation"#}
+{#                                               class="form-control input-lg" placeholder="Confirm Password"#}
+{#                                               tabindex="6">#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <!--Preference Information-->#}
+{#                    <div class="row">#}
+{#                        <div class="col-sm-4"></div>#}
+{#                        <div class="col-sm-4">#}
+{#                            <label class="switch">#}
+{#                                <input type="checkbox" />#}
+{#                                <span class="slider"></span>#}
+{#                            </label>#}
+{#                        </div>#}
+{##}
+{#                        <div class="col-sm-4"></div>#}
+{#                    </div>#}
+{#                    <div class="preference">#}
+{#                    <div class="row">#}
+{#                        <div class="title-area">#}
+{#                            <h3>#}
+{#                                Your Preferences#}
+{#                            </h3>#}
+{#                            <div class="separator separator-danger">✻</div>#}
+{#                            <div class="description">Please indicate your preference by drag and dropping items from the left list in the right list</div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        <div class="col-sm-2"></div>#}
+{#                        <div class="col-sm-4 pref-list">#}
+{#                            <h3>Keywords : </h3>#}
+{#                            <ol class="list-group list-group-sortable-connected">#}
+{#                                <li class="list-group-item list-group-item-info choice">Tagging tasks</li>#}
+{#                                <li class="list-group-item list-group-item-info choice">Image Recognition</li>#}
+{#                                <li class="list-group-item list-group-item-info choice">Sentiment Analysis</li>#}
+{#                                <li class="list-group-item list-group-item-info choice">Higher Pay</li>#}
+{#                                <li class="list-group-item list-group-item-info choice">Short tasks</li>#}
+{#                                <li class="list-group-item list-group-item-info choice">Long tasks</li>#}
+{##}
+{#                            </ol>#}
+{#                        </div>#}
+{##}
+{#                        <div class="col-sm-4 pref-list">#}
+{#                            <h3>Your Preferences : </h3>#}
+{#                            <ol class="list-group list-group-sortable-connected">#}
+{##}
+{#                            </ol>#}
+{#                        </div>#}
+{#                        <div class="col-sm-2"></div>#}
+{#                    </div>#}
+{#                    </div>#}
+{##}
+{##}
+{#                    <!--Submit Button-->#}
+{#                    <div class="row submit-div">#}
+{#                        <div class="col-xs-4 col-md-4"></div>#}
+{#                        <div class="col-xs-4 col-md-4"><input type="submit" value="Register"#}
+{#                                                              class="btn btn-primary btn-block btn-lg" tabindex="7">#}
+{#                        </div>#}
+{#                        <div class="col-xs-4 col-md-4"></div>#}
+{##}
+{#                    </div>#}
+{#                </div>#}
+{#            </form>#}
+            <!-- Modal -->
+            <div class="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel">Terms & Conditions</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi,
+                                aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi
+                                tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi,
+                                aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi
+                                tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi,
+                                aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi
+                                tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi,
+                                aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi
+                                tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi,
+                                aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi
+                                tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi,
+                                aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi
+                                tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi,
+                                aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi
+                                tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">I Agree</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
+
+{% block js%}
+    <script type="text/javascript">
+    $(function() {
+        var $pref_div = $(".preference");
+        $(".switch>input").bind("change",function(){
+            $pref_div.toggle(400);
+        });
+
+        var adjustment;
+
+        $("ol.list-group").sortable({
+            group: 'list-group',
+            pullPlaceholder: false,
+            isValidTarget: function  ($item, container) {
+                if($item.is(".choice"))
+                    return true;
+                else
+                    return $item.parent("ol")[0] == container.el[0];
+            },
+            tolerance : 6
+            // animation on drop
+//            onDrop: function  ($item, container, _super) {
+//                var $clonedItem = $('<li/>').css({height: 0});
+//                $item.before($clonedItem);
+//                $clonedItem.animate({'height': $item.height()});
+//
+//                $item.animate($clonedItem.position(), function  () {
+//                    $clonedItem.detach();
+//                    _super($item, container);
+//                });
+//            },
+
+            // set $item relative to cursor position
+//            onDragStart: function ($item, container, _super) {
+//                var offset = $item.offset(),
+//                    pointer = container.rootGroup.pointer;
+//
+//                adjustment = {
+//                    left: pointer.left - offset.left,
+//                    top: pointer.top - offset.top
+//                };
+//
+//                _super($item, container);
+//            },
+//            onDrag: function ($item, position) {
+//                $item.css({
+//                    left: position.left - adjustment.left,
+//                    top: position.top - adjustment.top
+//                });
+//            }
+        });
+    });
+
+</script>
+{% endblock %}

@@ -17,11 +17,13 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls import url
+from django.views.generic import TemplateView
 
 urlpatterns = [
-    # path('',include('showtasks.urls')),
-    path('',include('workinterface.urls')),
+    path('',TemplateView.as_view(template_name='index.html'),name='index'),
+    path('work/',include('workinterface.urls')),
     path('api-auth/',include('rest_framework.urls',namespace='rest_framework')),
+    path('accounts/', include('accounts.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
 ]

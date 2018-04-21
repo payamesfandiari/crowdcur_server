@@ -1,9 +1,0 @@
-{% extends "base_generic.html" %}
-{% block content %}
-
-    <ul>
-        {% for t in tasks %}
-            <li><a href="{{ t.id }}">{{ t }}</a></li>
-        {% endfor %}
-    </ul>
-{% endblock %}

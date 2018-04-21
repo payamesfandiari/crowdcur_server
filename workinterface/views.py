@@ -22,7 +22,7 @@ def ans(request,pk):
 
 class IndexView(LoginRequiredMixin,generic.ListView):
     login_url = '/accounts/login/'
-    template_name = 'workinterface/index.html'
+    template_name = 'workinterface/work.html'
     context_object_name = 'tasks'
 
     def get_queryset(self):
@@ -36,6 +36,16 @@ class IndexView(LoginRequiredMixin,generic.ListView):
             s = sample(s, 10)
 
         return t.filter(pk__in=s)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        NUM_IN_EACH_ROW = 5
+        context = super(IndexView,self).get_context_data(**kwargs)
+        num_of_tasks = len(context['tasks'])
+        temp = []
+        for i in range(0,num_of_tasks,NUM_IN_EACH_ROW):
+            temp.append(context['tasks'][i:i+NUM_IN_EACH_ROW])
+        context['tasks'] = temp
+        return context
 
 
 class DetailView(LoginRequiredMixin,generic.DetailView):

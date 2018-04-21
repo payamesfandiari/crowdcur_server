@@ -12,3 +12,4 @@ django-guardian
 pygments
 django-debug-toolbar
 django-extensions
+django-estimators
