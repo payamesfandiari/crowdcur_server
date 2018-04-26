@@ -1,15 +1,16 @@
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpResponse
-import json
+from django.http import HttpResponseRedirect, HttpResponse,JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from random import sample
+from random import sample,shuffle
 from django.views import generic
 # Create your views here.
 import json
 from .models import *
+
+
 
 @login_required
 def ans(request,pk):
@@ -17,7 +18,7 @@ def ans(request,pk):
     content = json.dumps(request.POST['ans'])
     ans = Answers(task=task,worker=request.user,content=content)
     ans.save()
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('work'))
 
 
 class IndexView(LoginRequiredMixin,generic.ListView):
@@ -41,9 +42,11 @@ class IndexView(LoginRequiredMixin,generic.ListView):
         NUM_IN_EACH_ROW = 5
         context = super(IndexView,self).get_context_data(**kwargs)
         num_of_tasks = len(context['tasks'])
+        tasks = list(context['tasks'])
+        shuffle(tasks)
         temp = []
         for i in range(0,num_of_tasks,NUM_IN_EACH_ROW):
-            temp.append(context['tasks'][i:i+NUM_IN_EACH_ROW])
+            temp.append(tasks[i:i+NUM_IN_EACH_ROW])
         context['tasks'] = temp
         return context
 
@@ -52,6 +55,7 @@ class DetailView(LoginRequiredMixin,generic.DetailView):
     model = Task
     template_name = 'workinterface/answer.html'
     context_object_name = 'task'
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,16 +1,22 @@
 <div class="col-md-2">
-    <div class="card card-member">
-        <div class="content">
-            <div class="thumbnail-container">
-                <div class="thumbnail">
+    <a href="{{ task.id }}">
+        <div class="card card-member">
+            <div class="content">
 
+                <h3 class="title"> {{ task.task_type.task_title }} </h3>
+                <div class="description">
+                    {{ task.task_type.task_description }}
+                    <p>
+                        Payment :
+                        <span class="label label-info">{{ task.task_type.task_payment }}$</span>
+                    </p>
+                    <p>
+                        Duration :
+                        <span class="label label-info">{{ task.task_type.task_time }} seconds</span>
+                    </p>
                 </div>
-            </div>
-            <div class="description">
-                <h3 class="title"> {{ task.task_type.task_description }} </h3>
-                <p class="description">Analyse the category of "negative news" of the provided
-                    companies based on the given criteria</p>
+
             </div>
         </div>
-    </div>
+    </a>
 </div>

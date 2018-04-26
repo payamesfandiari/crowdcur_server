@@ -16,7 +16,7 @@ class Job(models.Model):
 class Task(models.Model):
     task_type = models.ForeignKey(Job,on_delete=models.CASCADE)
     task_content = models.TextField()
-    task_uid = models.PositiveIntegerField()
+    task_uid = models.PositiveIntegerField(unique=True)
     task_answer_content = models.TextField()
 
     def __str__(self):

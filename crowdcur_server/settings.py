@@ -40,11 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'rest_framework',
-
+    'django_extensions',
     'workinterface.apps.WorkinterfaceConfig',
     'accounts.apps.AccountsConfig',
     'crowdcur.apps.CrowdcurConfig',
     'estimators',
+    'background_task',
     'debug_toolbar',
 
 ]
@@ -86,10 +87,17 @@ WSGI_APPLICATION = 'crowdcur_server.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
+# 'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': '/Users/Payam/PycharmProjects/crowdcur_server/db.sqlite3',
+#     }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'crowdcur_server',
+        'USER': 'Payam',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    },
 }
 
 

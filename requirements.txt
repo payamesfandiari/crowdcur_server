@@ -13,3 +13,5 @@ pygments
 django-debug-toolbar
 django-extensions
 django-estimators
+django-background-tasks
+psycopg2
