@@ -1,8 +1,141 @@
 {% extends 'base_generic.html' %}
+{% load static %}
 {% block title %}
-<title>Your feedback</title>
+    <title>Your feedback</title>
 {% endblock %}
 
 {% block content %}
+    <section class="section">
+        <div class="container">
+            <div class="preference">
+                <div class="row">
+                    <div class="title-area">
+                        <h3>
+                            Your Preferences
+                        </h3>
+                        <div class="separator separator-danger">✻</div>
+                        <div class="description">Please indicate your preference by drag and dropping items from the
+                            left list in the right list
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4 pref-list">
+                        <h3>Keywords : </h3>
+                        <ol class="list-group list-group-sortable-connected">
+                            <li class="list-group-item list-group-item-info choice">Tagging tasks</li>
+                            <li class="list-group-item list-group-item-info choice">Image Recognition</li>
+                            <li class="list-group-item list-group-item-info choice">Sentiment Analysis</li>
+                            <li class="list-group-item list-group-item-info choice">Higher Pay</li>
+                            <li class="list-group-item list-group-item-info choice">Short tasks</li>
+                            <li class="list-group-item list-group-item-info choice">Long tasks</li>
 
+                        </ol>
+                    </div>
+
+                    <div class="col-sm-4 pref-list">
+                        <h3>Your Preferences : </h3>
+                        <ol class="list-group list-group-sortable-connected" id="crowdcur_worker_feedback">
+
+                        </ol>
+                    </div>
+                    <div class="col-sm-2"></div>
+                </div>
+            </div>
+            <div class="row submit-div">
+                <div class="col-xs-4 col-md-4"></div>
+                <div class="col-xs-4 col-md-4">
+                    {% csrf_token %}
+                    <input id="submit_feedback" type="button" value="Submit"
+                           class="btn btn-primary btn-block btn-lg" tabindex="7">
+                </div>
+                <div class="col-xs-4 col-md-4"></div>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% block js %}
+    <script type=text/javascript src="{% static 'js/jquery-sortable-min.js' %}"></script>
+    <script type="text/javascript">
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+        $("ol.list-group").sortable({
+            group: 'list-group',
+            pullPlaceholder: false,
+            isValidTarget: function ($item, container) {
+                if ($item.is(".choice"))
+                    return true;
+                else
+                    return $item.parent("ol")[0] == container.el[0];
+            },
+            tolerance: 6
+            // animation on drop
+//            onDrop: function  ($item, container, _super) {
+//                var $clonedItem = $('<li/>').css({height: 0});
+//                $item.before($clonedItem);
+//                $clonedItem.animate({'height': $item.height()});
+//
+//                $item.animate($clonedItem.position(), function  () {
+//                    $clonedItem.detach();
+//                    _super($item, container);
+//                });
+//            },
+
+            // set $item relative to cursor position
+//            onDragStart: function ($item, container, _super) {
+//                var offset = $item.offset(),
+//                    pointer = container.rootGroup.pointer;
+//
+//                adjustment = {
+//                    left: pointer.left - offset.left,
+//                    top: pointer.top - offset.top
+//                };
+//
+//                _super($item, container);
+//            },
+//            onDrag: function ($item, position) {
+//                $item.css({
+//                    left: position.left - adjustment.left,
+//                    top: position.top - adjustment.top
+//                });
+//            }
+        });
+
+        $("#submit_feedback").on("click", function () {
+            pref = $("#crowdcur_worker_feedback").children().map(function () {
+                return $(this).text();
+            }).get();
+            console.log(pref);
+            $.ajax({
+                    async: true,
+                    url: '{% url 'feedback' %}',
+                    data: {"worker_pref[]":pref},
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function (data) {
+                        console.log(data);
+                        window.top.close();
+                    }
+                }
+            );
+
+        });
+
+    </script>
 {% endblock %}

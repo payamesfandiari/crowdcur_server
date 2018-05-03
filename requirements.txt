@@ -15,3 +15,4 @@ django-extensions
 django-estimators
 django-background-tasks
 psycopg2
+scikit-learn

@@ -22,6 +22,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('',TemplateView.as_view(template_name='index.html'),name='index'),
     path('work/',include('workinterface.urls')),
+    path('crowdcur/',include('crowdcur.urls')),
     path('api-auth/',include('rest_framework.urls',namespace='rest_framework')),
     path('accounts/', include('accounts.urls')),
     path('accounts/', include('django.contrib.auth.urls')),

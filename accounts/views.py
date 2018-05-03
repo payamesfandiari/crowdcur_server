@@ -5,6 +5,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 from .forms import UserRegisterForm
 from .models import User
+
+
 # Create your views here.
 
 import logging
@@ -22,7 +24,9 @@ class UserRegister(generic.CreateView):
         url = super(UserRegister, self).form_valid(form)
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password1')
+
         user = authenticate(username=username,password=password)
+
         login(self.request,user)
         return url
 
