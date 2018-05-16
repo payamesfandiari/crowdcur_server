@@ -3941,9 +3941,19 @@ input:checked + .slider:before {
 
 /*Canvas and charts*/
 
-.worker-chart{
-  width: 100%;
-  height: 100%;
+.worker-chart-doughnut{
+  width: 400px;
+  height: 400px !important;
   min-height: 250px;
-
+  max-width: 400px !important;
+  max-height: 400px !important;
+  display: inline !important;
+}
+.worker-chart-bar{
+  width: 500px;
+  height: 400px !important;
+  min-height: 250px;
+  max-width: 500px !important;
+  max-height: 500px !important;
+  display: inline !important;
 }

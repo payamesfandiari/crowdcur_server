@@ -1,18 +1,48 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.urls import reverse
+from django_countries.fields import CountryField
+from django.contrib.postgres.fields import ArrayField
+from django.db.models import Min, Max, Count, F, Avg, Sum, Q
+
 
 # Create your models here.
-
 
 class User(AbstractUser):
 
     email = models.EmailField("Email")
-    preference = models.TextField(blank=True)
+    preference = ArrayField(models.CharField(max_length=255))
     age = models.PositiveIntegerField()
-    education = models.CharField("Level of education",max_length=255)
+    education = models.CharField("Level of education",max_length=4,choices=[
+        ('BS',"Bachelor's degree"),
+        ('MS',"Master's degree"),
+        ('PHD',"Doctorate"),
+        ('PROF', "Higher level of Education"),
+    ])
+    nationality = CountryField(blank_label='(select country)')
 
     def __str__(self):
         return self.username
+
+    @staticmethod
+    def worker_info(worker):
+        """Static method to retrieve worker's statistical information.
+        @requires:  user - Instance from the User Django model.
+        @returns:   One JSON array
+        """
+        query = User.objects.filter(username=worker).annotate(
+            completed_task=Count('workertaskhistorymodel'),
+            success_task=Count('workertaskhistorymodel', filter=Q(workertaskhistorymodel__successful__exact=True)),
+            average_income=Avg('workertaskhistorymodel__task__task_type__task_payment',
+                               filter=Q(workertaskhistorymodel__successful__exact=True)),
+            max_income=Max('workertaskhistorymodel__task__task_type__task_payment',
+                           filter=Q(workertaskhistorymodel__successful__exact=True)),
+            sum_income=Sum('workertaskhistorymodel__task__task_type__task_payment',
+                           filter=Q(workertaskhistorymodel__successful__exact=True)),
+            sum_duration=Sum('workertaskhistorymodel__time_it_took',
+                             filter=Q(workertaskhistorymodel__successful__exact=True)),
+            avg_duration=Avg('workertaskhistorymodel__time_it_took',
+                             filter=Q(workertaskhistorymodel__successful__exact=True)),
+        )
+        return query
 
 

@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 {% load static %}
+
 {% block content %}
     <section class="section">
         <div class="container">
@@ -15,15 +16,22 @@
                 <div class="row">
                     <div class="col-md-2"></div>
                     <div class="col-xs-12 col-md-8">
-                        {% if task.task_type_id == 1 %}
-                            {% with "workinterface/task1/"|add:t.img as image_static %}
+                        {% if task.task_type_id == 2 or task.task_type_id == 7%}
                                 <div class="image-container">
-                                    <img class="work-image" src="{% static image_static %}" alt=""/>
+                                    <img class="work-image" src="{% get_static_prefix%}workinterface/task{{ task.task_type_id }}/{{ t.img }}" alt=""/>
                                 </div>
-                            {% endwith %}
-                        {% elif task.task_type_id == 2 %}
+                        {% elif task.task_type_id == 1 or task.task_type_id == 5 or task.task_type_id == 4 %}
                             <h3>{{ t.tweet }}</h3>
-                            <h4>Directed at : <span class="label label-info">{{ t.product }}</span></h4>
+                            {% if task.task_type_id == 1 %}
+                                <h4>Directed at : <span class="label label-info">{{ t.product }}</span></h4>
+                            {% endif %}
+                        {% elif task.task_type_id == 3 %}
+                            <h3>{{ t.sentence }}</h3>
+                        {% elif task.task_type_id == 6 %}
+                            <h3>Hypothesis : </h3>
+                            <h4>{{ t.hypothesis }}</h4>
+                            <h3>Premise : </h3>
+                            <h4>{{ t.premise }}</h4>
                         {% endif %}
                     </div>
                     <div class="col-md-2"></div>

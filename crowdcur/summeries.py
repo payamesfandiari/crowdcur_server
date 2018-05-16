@@ -3,7 +3,8 @@ from datetime import timedelta
 
 from django.contrib.postgres.fields import ArrayField
 from .models import *
-from django.db.models import Min, Max, Count, F, Avg, Sum
+from django.db.models import Min, Max, Count, F, Avg, Sum, Q
+
 
 def merge_dicts(*dict_args):
     '''
@@ -17,12 +18,12 @@ def merge_dicts(*dict_args):
 
 
 class OverviewWorker:
-    def __init__(self, filters,worker):
+    def __init__(self, filters, worker):
         self._filters = filters
         self.task_history = WorkerTaskHistoryModel.objects.filter(worker=worker)
         self.pref_history = WorkerPreferenceHistoryModel.objects.filter(worker=worker)
 
-        self.bounds = self.task_history.aggregate(min_time=Min('timestamp'),max_time=Max('timestamp'))
+        self.bounds = self.task_history.aggregate(min_time=Min('timestamp'), max_time=Max('timestamp'))
         if self.bounds['max_time'] and self.bounds['min_time']:
             self.span = self.bounds['max_time'] - self.bounds['min_time']
         else:
@@ -54,12 +55,10 @@ class OverviewWorker:
         out = {}
         return out
 
-
-
-
     def to_dict(self):
         return {
             'filter': self._filters,
             'bounds': self.bounds,
 
         }
+

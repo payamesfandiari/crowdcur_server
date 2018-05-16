@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 {% load static %}
+{% load humanize %}
 {% block title %}
     <title> Dashboard for {{ username }} </title>
 {% endblock %}
@@ -18,35 +19,40 @@
                     <div class="col-md-4">
                         <div class="info-icon">
                             <div class="icon text-danger">
-                                <i class="pe-7s-graph1"></i>
+                                <i class="fas fa-dollar-sign"></i>
                             </div>
                             <h3>Income</h3>
-                            <p class="description">You made <strong class="bg-success">{{ info.total_money }}$</strong>.
-                                On average <strong class="bg-success">{{ info.avg_money }}$</strong>.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="info-icon">
-                            <div class="icon text-danger">
-                                <i class="pe-7s-note2"></i>
-                            </div>
-                            <h3>Time</h3>
-                            <p class="description">Your average session takes <strong
-                                    class="bg-danger">{{ info.avg_time }}seconds</strong>
-                                people with <strong class="bg-success">10.1 seconds</strong> average session made more
-                                money.
+                            <p class="description">You made <strong
+                                    class="bg-success">{{ info.sum_income|floatformat:"2"|intcomma }}$</strong>.
+                                On average <strong class="bg-success">{{ info.average_income|floatformat:"2"|intcomma }}$</strong>.
                             </p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="info-icon">
                             <div class="icon text-danger">
-                                <i class="pe-7s-music"></i>
+                                <i class="far fa-clock"></i>
+                            </div>
+                            <h3>Time</h3>
+                            <p class="description">You have spend <strong
+                                    class="bg-success">{{ info.sum_duration|floatformat:"2"|intcomma }}</strong> seconds
+                                on your tasks.
+                                On average each task took <strong
+                                        class="bg-danger">{{ info.avg_duration|floatformat:"2"|intcomma }}</strong>
+                                seconds.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-icon">
+                            <div class="icon text-danger">
+                                <i class="far fa-check-square"></i>
                             </div>
                             <h3>Rank</h3>
-                            <p class="description">You rank in the first <strong class="bg-success">14%</strong> of
-                                market. Your accuracy is
-                                <strong class="bg-success">{{ info.avg_acc }}%</strong>.
+                            <p class="description">You have seen <strong
+                                    class="bg-success">{{ info.completed_task }}</strong> tasks overall.
+                                You have completed
+                                <strong class="bg-success">{{ info.success_task }}</strong> tasks successfully.
                             </p>
                         </div>
                     </div>
@@ -60,11 +66,11 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h3>Time you have spent on different tasks.</h3>
-                        <div id="perf_time" class="worker-chart"></div>
+                        <canvas id="time_spent" class="worker-chart"></canvas>
                     </div>
                     <div class="col-md-6">
                         <h3>Changes in your preference as captured by our model.</h3>
-                        <div id="time_spent" class="worker-chart"></div>
+                        <canvas id="perf_time" class="worker-chart"></canvas>
                     </div>
                 </div>
 
@@ -72,171 +78,234 @@
             </div>
         </div>
     </section>
+    <section class="section section-header-freebie section-white">
+
+        <div class="container">
+            <h2>How similar workers are doing?</h2>
+            <p>To give you a sense of how well you are doing, we have provided a set of graphs for you to compare
+                yourself with
+                other similar workers.</p>
+
+            <ul class="nav nav-tabs" id="similar-charts">
+                <li chart-type="task_type" class="active"><a data-toggle="tab" href="#home">Different Task Types</a>
+                </li>
+                <li chart-type="time_spent"><a data-toggle="tab" href="#menu1">Time Spent</a></li>
+                <li chart-type="income"><a data-toggle="tab" href="#menu2">Income</a></li>
+                <li chart-type="accuracy"><a data-toggle="tab" href="#menu3">Accuracy</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active row">
+                    <h3>Similar workers finished this many tasks.</h3>
+                    <div class="text-center">
+                        <canvas id="chart-task_type" class="worker-chart-doughnut"></canvas>
+                    </div>
+                </div>
+                <div id="menu1" class="tab-pane fade row">
+                    <h3>Similar worker spent this much time on one different task types.</h3>
+                    <div class="text-center">
+                        <canvas id="chart-time_spent" class="worker-chart-bar"></canvas>
+                    </div>
+                </div>
+                <div id="menu2" class="tab-pane fade row">
+                    <h3>Similar worker spent their time on these many tasks.</h3>
+                    <div class="text-center">
+                        <canvas id="chart-income" class="worker-chart-bar"></canvas>
+                    </div>
+                </div>
+                <div id="menu3" class="tab-pane fade row">
+                    <h3>Similar worker spent their time on these many tasks.</h3>
+                    <div class="text-center">
+                        <canvas id="chart-accuracy" class="worker-chart-bar"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
 {% endblock %}
 
 {% block js %}
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script type="text/javascript">
-        var data1 = [{
-            values: [213, 154, 12,85],
-            labels: ['Image Tagging', 'Tweet Sentiment', 'Image Labelling','Annotation'],
-            type: 'pie'
-        }];
-
-        var layout1 = {
-            height: 400,
-            width: 500
+        window.chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
         };
-        Plotly.newPlot('perf_time', data1, layout1);
-var xData = [
-  [201, 202, 203, 204, 205, 206, 207, 208, 209, 210],
-  [201, 202, 203, 204, 205, 206, 207, 208, 209, 210],
-  [201, 202, 203, 204, 205, 206, 207, 208, 209, 210],
-    [201, 202, 203, 204, 205, 206, 207, 208, 209, 210]
-];
+        $.getJSON('{% url 'get_time_spent' %}',function(d){
+            new Chart($("#time_spent"), {
+            type: 'doughnut',
+            data: d,
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'top'
+                },
+                title: {
+                    display: true,
+                    position: 'bottom',
+                    fontSize: 18,
+                    text: 'Time you have spent on different types of tasks'
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
 
-var yData = [
-  [74, 82, 80, 74, 73, 72, 74, 70, 70, 66],
-  [45, 42, 50, 46, 36, 36, 34, 35, 32, 31],
-  [13, 14, 20, 24, 20, 24, 24, 40, 35, 41],
-  [18, 21, 18, 21, 16, 14, 13, 18, 17, 16]
-];
+        });
 
-var colors = ['rgba(67,67,67,1)', 'rgba(115,115,115,1)', 'rgba(49,130,189, 1)',
-  'rgba(189,189,189,1)'
-];
+        var pref_chart = new Chart($("#perf_time"), {
+            type: 'line',
+            data: {
+                labels: ["100 tasks", "200 tasks", "300 tasks", "400 tasks", "500 tasks"],
+                datasets: [{
+                    label: "High Pay Jobs",
+                    data: [78.2, 82.12, 67.3, 45.2, 32.4, 29.2],
+                    borderWidth: 1,
+                    backgroundColor: window.chartColors.red,
+                    borderColor: window.chartColors.red,
+                    fill: true
 
-var lineSize = [2, 2, 4, 2];
+                }, {
+                    label: "Lower Duration",
+                    data: [9.26, 5.96, 16.35, 20.7, 42, 65.3],
+                    borderWidth: 1,
+                    fill: true,
+                    borderColor: window.chartColors.green,
+                    backgroundColor: window.chartColors.green
 
-var labels = ['High Payment', 'Image Tagging', 'Image Labeling', 'Tweet Sentiment'];
-var data = [];
+                }, {
+                    label: "Task Type : Tagging",
+                    data: [5.54, 3.92, 6.35, 4.7, 2.2, 1.2],
+                    borderWidth: 1,
+                    fill: true,
+                    borderColor: window.chartColors.blue,
+                    backgroundColor: window.chartColors.blue
 
-for ( var i = 0 ; i < xData.length ; i++ ) {
-  var result = {
-    x: xData[i],
-    y: yData[i],
-    type: 'scatter',
-    mode: 'lines',
-    line: {
-      color: colors[i],
-      width: lineSize[i]
-    }
-  };
-  var result2 = {
-    x: [xData[i][0], xData[i][9]],
-    y: [yData[i][0], yData[i][9]],
-    type: 'scatter',
-    mode: 'markers',
-    marker: {
-      color: colors[i],
-      size: 12
-    }
-  };
-  data.push(result, result2);
-}
+                }, {
+                    label: "Task Type : Image Categorization",
+                    data: [7, 8, 0, 10, 8.2, 10.2],
+                    borderWidth: 1,
+                    fill: true,
+                    borderColor: window.chartColors.yellow,
+                    backgroundColor: window.chartColors.yellow
 
-var layout = {
-  showlegend: false,
-  height: 400,
-  width: 600,
-  xaxis: {
-    showline: true,
-    showgrid: false,
-    showticklabels: true,
-    linecolor: 'rgb(204,204,204)',
-    linewidth: 2,
-    autotick: false,
-    ticks: 'outside',
-    tickcolor: 'rgb(204,204,204)',
-    tickwidth: 2,
-    ticklen: 5,
-    tickfont: {
-      family: 'Arial',
-      size: 12,
-      color: 'rgb(82, 82, 82)'
-    }
-  },
-  yaxis: {
-    showgrid: false,
-    zeroline: false,
-    showline: false,
-    showticklabels: false
-  },
-  autosize: false,
-  margin: {
-    autoexpand: false,
-    l: 100,
-    r: 20,
-    t: 100
-  },
-  annotations: [
-    {
-      xref: 'paper',
-      yref: 'paper',
-      x: 0.0,
-      y: 1.05,
-      xanchor: 'left',
-      yanchor: 'bottom',
-      text: '',
-      font:{
-        family: 'Arial',
-        size: 30,
-        color: 'rgb(37,37,37)'
-      },
-      showarrow: false
-    },
-    {
-      xref: 'paper',
-      yref: 'paper',
-      x: 0.5,
-      y: -0.1,
-      xanchor: 'center',
-      yanchor: 'top',
-      text: '',
-      showarrow: false,
-      font: {
-        family: 'Arial',
-        size: 12,
-        color: 'rgb(150,150,150)'
-      }
-    }
-  ]
-};
+                }]
 
-for( var i = 0 ; i < xData.length ; i++ ) {
-  var result = {
-    xref: 'paper',
-    x: 0.05,
-    y: yData[i][0],
-    xanchor: 'right',
-    yanchor: 'middle',
-    text: labels[i],
-    showarrow: false,
-    font: {
-      family: 'Arial',
-      size: 16,
-      color: 'black'
-    }
-  };
-  var result2 = {
-    xref: 'paper',
-    x: 0.95,
-    y: yData[i][9],
-    xanchor: 'left',
-    yanchor: 'middle',
-    text: yData[i][9] +'%',
-    font: {
-      family: 'Arial',
-      size: 16,
-      color: 'black'
-    },
-    showarrow: false
-  };
+            },
+            options: {
+                title: {
+                    display: true,
+                    position: 'bottom',
+                    fontSize: 18,
+                    text: 'Changes in your preference'
+                },
+                scales: {
+                    xAxes: [{
+                        stacked: false
+                    }],
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
 
-  layout.annotations.push(result, result2);
-}
+                }
+            }
+        });
 
-Plotly.newPlot('time_spent', data, layout);
+        CHART_TYPES = {
+            'task_type': 'doughnut',
+            'time_spent': 'bar',
+            'income': 'bar',
+            'accuracy': 'bar'
+        };
+        CHART_LABELS = {
+            'task_type': {'x': 'Task Type', 'y': 'Number of completed tasks', 'display': false, 'legend_disply': true},
+            'time_spent': {'x': 'Task Type', 'y': 'Time spent in seconds', 'display': true},
+            'income': {'x': 'Task Type', 'y': 'Money made', 'display': true},
+            'accuracy': {'x': 'Task Type', 'y': 'Accuracy', 'display': true}
+        };
+        var chart = null;
+        var create_chart = function (chart_type) {
+            var url = '{% url 'dashboard' %}get_' + chart_type;
+            var chartdata = {
+                labels: null,
+                datasets: [
+                    {
+                        backgroundColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+
+                        borderColor: 'rgba(200, 200, 200, 0.75)',
+                        hoverBackgroundColor: 'rgba(100, 150, 250, 1)',
+                        hoverBorderColor: 'rgba(200, 200, 200, 1)',
+                        data: null
+                    }
+                ]
+            };
+            $.ajax({
+                url: url,
+                method: "GET",
+                success: function (data) {
+                    chartdata.labels = data.labels;
+                    chartdata.datasets[0].data = data.data;
+                    return new Chart($("#chart-" + chart_type).get(0).getContext("2d"), {
+                        type: CHART_TYPES[chart_type],
+                        data: chartdata,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            legend: {
+                                display: CHART_LABELS[chart_type].legend_disply
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: CHART_LABELS[chart_type].display,
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: CHART_LABELS[chart_type].x
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: CHART_LABELS[chart_type].display,
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: CHART_LABELS[chart_type].y
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }
+            });
+
+        };
+        $("#similar-charts").on('click', 'li', function () {
+            var chart_type = $(this).attr('chart-type');
+            var divParent = $("#chart-" + chart_type).parent().get(0);
+            $(divParent).empty();
+            var new_chart = $('<canvas></canvas>');
+            $(new_chart).attr('id', "chart-" + chart_type);
+            $(new_chart).addClass("worker-chart-" + CHART_TYPES[chart_type]);
+            $(divParent).append(new_chart);
+
+            chart = create_chart(chart_type);
+
+        });
+
     </script>
 
 {% endblock %}

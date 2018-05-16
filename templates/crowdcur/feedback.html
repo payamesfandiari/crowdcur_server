@@ -24,12 +24,9 @@
                     <div class="col-sm-4 pref-list">
                         <h3>Keywords : </h3>
                         <ol class="list-group list-group-sortable-connected">
-                            <li class="list-group-item list-group-item-info choice">Tagging tasks</li>
-                            <li class="list-group-item list-group-item-info choice">Image Recognition</li>
-                            <li class="list-group-item list-group-item-info choice">Sentiment Analysis</li>
-                            <li class="list-group-item list-group-item-info choice">Higher Pay</li>
-                            <li class="list-group-item list-group-item-info choice">Short tasks</li>
-                            <li class="list-group-item list-group-item-info choice">Long tasks</li>
+                            {% for p in pref %}
+                                <li class="list-group-item list-group-item-info choice">{{ p }}</li>
+                            {% endfor %}
 
                         </ol>
                     </div>

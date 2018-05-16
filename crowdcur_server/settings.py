@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'crispy_forms',
     'rest_framework',
     'django_extensions',
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'estimators',
     'background_task',
     'debug_toolbar',
+    'django_countries',
 
 ]
 

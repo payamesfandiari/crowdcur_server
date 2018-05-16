@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from .forms import UserRegisterForm
 from .models import User
+from workinterface.models import Job
 
 
 # Create your views here.
@@ -18,7 +19,12 @@ class UserRegister(generic.CreateView):
     model = User
     form_class = UserRegisterForm
     template_name = 'accounts/register.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('work')
+
+    def get_context_data(self, **kwargs):
+        context = super(UserRegister,self).get_context_data()
+        context['keywords'] = Job.objects.get_keywords()
+        return context
 
     def form_valid(self, form):
         url = super(UserRegister, self).form_valid(form)
