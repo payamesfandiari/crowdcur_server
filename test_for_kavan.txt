@@ -1,0 +1,8 @@
+export PYTHONPATH="/opt/python/current/app/:$PYTHONPATH"
+export PATH="/opt/python/run/venv/bin/:$PATH"
+export RDS_PORT="5432"
+export RDS_PASSWORD="payam123"
+export RDS_USERNAME="crowdcur"
+export DJANGO_SETTINGS_MODULE="crowdcur_server.settings"
+export RDS_DB_NAME="ebdb"
+export RDS_HOSTNAME="aa63i1lumr202r.cz3xrjrvklqy.us-east-1.rds.amazonaws.com"
