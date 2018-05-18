@@ -168,3 +168,11 @@ workinterface/.DS_Store
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+.elasticbeanstalk/
+crowdcur/static/
+description.pkl
+estimators/
+scripts/
+static/imgs/
+workinterface/static.zip
+
