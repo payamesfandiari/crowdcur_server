@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'background_task',
     'debug_toolbar',
     'django_countries',
+    'storages'
 
 ]
 
@@ -150,10 +151,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]
+# STATICFILES_FINDERS = [
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+# ]
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
@@ -185,5 +186,20 @@ REST_FRAMEWORK = {
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 
+## S3 AWS settings
+AWS_S3_OBJECT_PARAMETERS = {
+    'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+    'CacheControl': 'max-age=94608000',
+}
 
-## Django Estimator Lib
+AWS_STORAGE_BUCKET_NAME = 'elasticbeanstalk-us-east-1-981655144972'
+AWS_S3_REGION_NAME = 'us-east-1'  # e.g. us-east-2
+AWS_ACCESS_KEY_ID = 'AKIAIEWDA3QMPEDXCU2Q'
+AWS_SECRET_ACCESS_KEY = '3gqluypBA/83FdVHevBla+Xvrgctmlw7qT8t1jRH'
+
+# Tell django-storages the domain to use to refer to static files.
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+# Tell the staticfiles app to use S3Boto3 storage when writing the collected static files (when
+# you run `collectstatic`).
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

@@ -3,19 +3,15 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 
-    {% block title %}<title>Local Library</title>{% endblock %}
-    <meta charset="utf-8">
+    {% block title %}<title>CrowdCur</title>{% endblock %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Cambo|Poppins:400,600' rel='stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link href="{% static "css/gaia.css" %}" rel="stylesheet"/>
     <link href="{% static "css/login-register.css" %}" rel="stylesheet"/>
-
     <link href="{% static "css/pe-icon-7-stroke.css" %}" rel="stylesheet">
 
     <!-- Add additional CSS in static file -->
@@ -86,8 +82,7 @@
             </div>
         </div>
         <hr>
-        <div class="copyright"> ©
-            <script> document.write(new Date().getFullYear()) </script>
+        <div class="copyright"> ©{% now "Y" %}
             Payam Esfandiari, made with love
         </div>
     </div>
@@ -136,7 +131,7 @@
                 <div class="modal-footer">
                     <div class="forgot login-footer">
                             <span>Looking to
-                                 <a href="register.html">create an account</a>
+                                 <a href="{% url 'signup' %}">create an account</a>
                             ?</span>
                     </div>
                     <div class="forgot register-footer" style="display:none">
