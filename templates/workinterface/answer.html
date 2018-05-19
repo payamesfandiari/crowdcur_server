@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 {% load static %}
+{% load string_extra %}
 
 {% block content %}
     <section class="section">
@@ -16,9 +17,11 @@
                 <div class="row">
                     <div class="col-md-2"></div>
                     <div class="col-xs-12 col-md-8">
-                        {% if task.task_type_id == 2 or task.task_type_id == 7%}
+                        {% if task.task_type_id == 2 or task.task_type_id == 7 or task.task_type_id == 8%}
                                 <div class="image-container">
-                                    <img class="work-image" src="{% get_static_prefix%}workinterface/task{{ task.task_type_id }}/{{ t.img }}" alt=""/>
+                                    {% with 'workinterface/task'|concat:task.task_type_id|concat:'/'|concat:t.img as static_image %}
+                                        <img class="work-image" src="{% static static_image %}" alt=""/>
+                                    {% endwith %}
                                 </div>
                         {% elif task.task_type_id == 1 or task.task_type_id == 5 or task.task_type_id == 4 %}
                             <h3>{{ t.tweet }}</h3>

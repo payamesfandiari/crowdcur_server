@@ -1,8 +1,9 @@
 from django.db import models
+from django.shortcuts import reverse
 from django.contrib.auth.models import AbstractUser
 from django_countries.fields import CountryField
 from django.contrib.postgres.fields import ArrayField
-from django.db.models import Min, Max, Count, F, Avg, Sum, Q
+from django.db.models import  Max, Count, F, Avg, Sum, Q
 
 
 # Create your models here.
@@ -22,6 +23,9 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    def get_absolute_url(self):
+        return reverse("detail", kwargs={"username": self.username})
 
     @staticmethod
     def worker_info(worker):

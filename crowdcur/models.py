@@ -1,8 +1,6 @@
 from datetime import datetime
 from django.db import models
-from django.conf import settings
 from django.contrib.postgres import fields
-from estimators.models import Estimator
 from accounts.models import User
 from workinterface.models import Task
 # Create your models here.

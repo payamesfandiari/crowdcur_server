@@ -1,0 +1,38 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+
+<section class="section section-contact-form">
+
+{% if form.errors %}
+    <div class="alert alert-danger fade in">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>Warning!</strong> <p>Your username and password didn't match. Please try again.</p>
+</div>
+{% endif %}
+<div class="title-area">
+    <h3>Please use your username and password to login.</h3>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+      <form class="form-signin" action="{% url 'login' %}" method="post" id="login-form">
+          {% csrf_token %}
+        <h2 class="form-signin-heading">{{ message }}</h2>
+        <label for="id_username" class="sr-only">Email address</label>
+        <input type="text" name="username" id="id_username" class="form-control" placeholder="User Name" required autofocus>
+        <label for="id_password" class="sr-only">Password</label>
+        <input type="password" name="password" id="id_password" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+            </div>
+        <div class="col-md-4"></div>
+    </div>
+    </div> <!-- /container -->
+</section>
+{% endblock %}

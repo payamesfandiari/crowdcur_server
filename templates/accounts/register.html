@@ -4,53 +4,72 @@
 {% block content %}
     <section class="section section-header-freebie section-white">
 
-    <div class="container">
-        <div class="content">
-            <div class="row ">
-                <div class="title-area">
-                    <h2>Please Sign Up
-                        <small>It's free and always will be.</small>
-                    </h2>
+        <div class="container">
+            <div class="content">
+                <div class="row ">
+                    <div class="title-area">
+                        <h2>Please Sign Up
+                            <small>It's free and always will be.</small>
+                        </h2>
+                    </div>
                 </div>
+
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger fade in">
+                                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                    <strong>Error! {{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger fade in">
+                            <a href="#" class="close" data-dismiss="alert">&times;</a>
+                            <strong>Error! {{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% crispy form %}
+
             </div>
-           {% crispy form %}
-
         </div>
-    </div>
 
-</section>
+    </section>
 
 {% endblock %}
 
-{% block js%}
+{% block js %}
     <script type=text/javascript src="{% static 'js/jquery-sortable-min.js' %}"></script>
     <script type="text/javascript">
-    $(function() {
-        var adjustment;
+        $(function () {
+            var adjustment;
 
-        $("ol.list-group").sortable({
-            group: 'list-group',
-            pullPlaceholder: false,
-            isValidTarget: function  ($item, container) {
-                if($item.is(".choice"))
-                    return true;
-                else
-                    return $item.parent("ol")[0] == container.el[0];
-            },
-            tolerance : 6,
-            // animation on drop
-            onDrop: function  ($item, container, _super) {
-                var $clonedItem = $('<li/>').css({height: 0});
-                $item.before($clonedItem);
-                $clonedItem.animate({'height': $item.height()});
+            $("ol.list-group").sortable({
+                group: 'list-group',
+                pullPlaceholder: false,
+                isValidTarget: function ($item, container) {
+                    if ($item.is(".choice"))
+                        return true;
+                    else
+                        return $item.parent("ol")[0] == container.el[0];
+                },
+                tolerance: 6,
+                // animation on drop
+                onDrop: function ($item, container, _super) {
+                    var $clonedItem = $('<li/>').css({height: 0});
+                    $item.before($clonedItem);
+                    $clonedItem.animate({'height': $item.height()});
 
-                $item.animate($clonedItem.position(), function  () {
-                    $clonedItem.detach();
-                    _super($item, container);
-                });
-            }
+                    $item.animate($clonedItem.position(), function () {
+                        $clonedItem.detach();
+                        _super($item, container);
+                    });
+                }
 
-            // set $item relative to cursor position
+                // set $item relative to cursor position
 //            onDragStart: function ($item, container, _super) {
 //                var offset = $item.offset(),
 //                    pointer = container.rootGroup.pointer;
@@ -68,14 +87,16 @@
 //                    top: position.top - adjustment.top
 //                });
 //            }
+            });
+            $("#worker_register_form").on('submit', function () {
+                prefs = $("#crowdcur_worker_feedback").children().map(function () {
+                    return $(this).text()
+                }).get().join();
+                $("#id_pref").val(prefs);
+                return true;
+            });
+
         });
-    $("#worker_register_form").on('submit',function(){
-        prefs = $("#crowdcur_worker_feedback").children().map(function(){return $(this).text()}).get().join();
-        $("#id_pref").val(prefs);
-        return true;
-    });
 
-    });
-
-</script>
+    </script>
 {% endblock %}

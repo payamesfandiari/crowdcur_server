@@ -1,7 +1,4 @@
-from collections import Counter
 from datetime import timedelta
-
-from django.contrib.postgres.fields import ArrayField
 from .models import *
 from django.db.models import Min, Max, Count, F, Avg, Sum, Q
 

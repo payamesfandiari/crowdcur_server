@@ -7,8 +7,7 @@ from .models import (WorkerPreferenceHistoryModel,
                      WorkerTaskHistoryModel,
                      WorkerModel,
                      TaskFeaturesModel,
-                     WorkerKFactor,
-                     PreferenceToFeaturesModel,TaskFeatureMapping)
+                     TaskFeatureMapping)
 
 logger = getLogger(__name__)
 
@@ -30,7 +29,7 @@ def update_worker_model(worker_id):
     worker_latest_pref = WorkerPreferenceHistoryModel.objects.filter(worker_id=worker_id).latest('timestamp').preference
     columns = {t['feature_name']:t['col_number'] for t in TaskFeatureMapping.objects.values()}
     worker_history = WorkerTaskHistoryModel.objects.filter(
-        worker_id=worker_id,successful=True).order_by('-timestamp')[:10].values('task', 'time_it_took')
+        worker_id=worker_id,successful=True).order_by('-timestamp')[:15].values('task', 'time_it_took')
     if worker_history.count() < 5:
         return False
     X = pd.DataFrame(list(

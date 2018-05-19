@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <section class="section section-contact-us">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1>{{ user.username }}</h1>
+                    <form class="form-horizontal" method="post" action="{% url 'update' %}">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="control-group">
+                            <div class="controls">
+                                <button type="submit" class="btn">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

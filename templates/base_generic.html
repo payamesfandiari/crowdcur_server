@@ -2,48 +2,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
 
-    {% block title %}<title>CrowdCur</title>{% endblock %}
+    <title>{% block title %}CrowdCur{% endblock %}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Cambo|Poppins:400,600' rel='stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link href="{% static "css/gaia.css" %}" rel="stylesheet"/>
     <link href="{% static "css/login-register.css" %}" rel="stylesheet"/>
     <link href="{% static "css/pe-icon-7-stroke.css" %}" rel="stylesheet">
+    <link href="{% static "css/logo.css" %}" rel="stylesheet">
 
     <!-- Add additional CSS in static file -->
-
 </head>
 
 <body>
 <nav class="navbar navbar-default navbar-transparent navbar-fixed-top" color-on-scroll="200">
-  <!-- if you want to keep the navbar hidden you can add this class to the navbar "navbar-burger"-->
-  <div class="container">
-    <div class="navbar-header">
-      <button id="menu-toggle" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar bar1"></span> <span class="icon-bar bar2"></span> <span class="icon-bar bar3"></span> </button>
-      <a href="{% url 'index' %}" class="navbar-brand"> CrowdCur </a> </div>
+    <!-- if you want to keep the navbar hidden you can add this class to the navbar "navbar-burger"-->
+    <div class="container">
+        <div class="navbar-header">
+            <button id="menu-toggle" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example">
+                <span class="sr-only">Toggle navigation</span> <span class="icon-bar bar1"></span> <span
+                    class="icon-bar bar2"></span> <span class="icon-bar bar3"></span></button>
+            <div style="margin-top: -35px">
+                <a href="{% url 'index' %}" class="navbar-brand">
+                    <h1 class="logo">
+                        <span class="word1">Cur</span>
+                        <span class="word2">Crowd</span>
+                    </h1>
+                </a>
+            </div>
+        </div>
 
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav navbar-right navbar-uppercase">
-          {% if not request.user.is_authenticated %}
-        <li> <a href="{% url 'signup' %}">Register</a> </li>
-        <li> <a href="javascript:void(0);" onclick="openLoginModal();" class="btn btn-danger btn-fill">Login</a> </li>
-          {% else %}
-        <li> <a href="{% url 'profile' request.user.username %}">Profile</a> </li>
-        <li> <a href="{% url 'logout' %}" class="btn btn-danger btn-fill">Logout</a> </li>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right navbar-uppercase">
+                {% if not request.user.is_authenticated %}
+                    <li><a href="{% url 'signup' %}">Register</a></li>
+                    <li><a href="javascript:void(0);" onclick="openLoginModal();"
+                           class="btn btn-danger btn-fill">Login</a></li>
+                {% else %}
+                    <li><a href="{% url 'detail' request.user.username %}">Profile</a></li>
+                    <li><a href="{% url 'logout' %}" class="btn btn-danger btn-fill">Logout</a></li>
 
 
-          {% endif %}
-      </ul>
+                {% endif %}
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-
-
-
-    <!-- /.navbar-collapse -->
-  </div>
 </nav>
 {% block content %}
 
@@ -89,7 +98,6 @@
 </footer>
 
 <section>
-
     <div class="modal fade login" id="loginModal">
         <div class="modal-dialog login animated">
             <div class="modal-content">
@@ -120,8 +128,10 @@
                             <div class="form loginBox">
                                 <form method="post" action="{% url 'login' %}" accept-charset="UTF-8">
                                     {% csrf_token %}
-                                    <input id="id_username" class="form-control" type="text" placeholder="Username" name="username">
-                                    <input id="id-password" class="form-control" type="password" placeholder="Password" name="password">
+                                    <input id="id_username" class="form-control" type="text" placeholder="Username"
+                                           name="username">
+                                    <input id="id-password" class="form-control" type="password" placeholder="Password"
+                                           name="password">
                                     <input class="btn btn-default btn-login" type="submit" value="Login">
                                 </form>
                             </div>

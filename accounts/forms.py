@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class UserRegisterForm(UserCreationForm):
-    pref = forms.CharField(max_length=999,widget=forms.HiddenInput())
+    pref = forms.CharField(max_length=999,widget=forms.HiddenInput(),error_messages={'required':"Please provide your initial preference. You need to choose 5 items."})
 
     class Meta:
         model = User
@@ -67,7 +67,7 @@ class UserRegisterForm(UserCreationForm):
     def clean_pref(self):
         pref = self.cleaned_data['pref'].split(',')
         if len(pref) < 5:
-            forms.ValidationError('Not Enough Keywords have been selected.',code="not_enough_keywords")
+            raise forms.ValidationError('Not Enough Keywords have been selected.',code="not_enough_keywords")
         else:
             return pref[0:5]
 
