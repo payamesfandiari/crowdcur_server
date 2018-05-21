@@ -26,12 +26,15 @@ def check_needs_update(worker):
 @background(schedule=1)
 def update_worker_model(worker_id):
     model = WorkerModel.objects.get(worker_id=worker_id)
-    worker_latest_pref = WorkerPreferenceHistoryModel.objects.filter(worker_id=worker_id).latest('timestamp').preference
     columns = {t['feature_name']:t['col_number'] for t in TaskFeatureMapping.objects.values()}
     worker_history = WorkerTaskHistoryModel.objects.filter(
         worker_id=worker_id,successful=True).order_by('-timestamp')[:15].values('task', 'time_it_took')
     if worker_history.count() < 5:
         return False
+    try:
+        worker_latest_pref = WorkerPreferenceHistoryModel.objects.filter(worker_id=worker_id).latest('timestamp').preference
+    except WorkerPreferenceHistoryModel.DoesNotExist:
+        worker_latest_pref = None
     X = pd.DataFrame(list(
         TaskFeaturesModel.objects.filter(
             task_id__in=worker_history.values_list('task', flat=True)).values_list('feature', flat=True)))
