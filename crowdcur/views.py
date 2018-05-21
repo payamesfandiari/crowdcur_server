@@ -44,7 +44,17 @@ def set_worker_shown_tasks(request):
 
 
 def get_info(request):
-    return JsonResponse({"response": 1, "MoneyMade": 1523.12, "AvgDuration": 15.2})
+    worker_info = \
+        User.worker_info(request.user.username).values('completed_task', 'success_task', 'average_income', 'sum_income',
+                                                       'sum_duration',
+                                                       'avg_duration')[0]
+    return JsonResponse({"response": 1,
+                         "money_made": worker_info['sum_income'],
+                         "avg_duration": worker_info['sum_duration'],
+                         "tasks_seen": worker_info['completed_task'],
+                         "tasks_comp": worker_info['success_task'],
+                         "username": request.user.username
+                         })
 
 
 class WorkerDashboardView(LoginRequiredMixin, generic.TemplateView):
