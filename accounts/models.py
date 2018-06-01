@@ -11,15 +11,15 @@ from django.db.models import  Max, Count, F, Avg, Sum, Q
 class User(AbstractUser):
 
     email = models.EmailField("Email")
-    preference = ArrayField(models.CharField(max_length=255))
-    age = models.PositiveIntegerField()
+    preference = ArrayField(models.CharField(max_length=255),null=True)
+    age = models.PositiveIntegerField(null=True)
     education = models.CharField("Level of education",max_length=4,choices=[
         ('BS',"Bachelor's degree"),
         ('MS',"Master's degree"),
         ('PHD',"Doctorate"),
         ('PROF', "Higher level of Education"),
-    ])
-    nationality = CountryField(blank_label='(select country)')
+    ],null=True)
+    nationality = CountryField(blank_label='(select country)',null=True)
 
     def __str__(self):
         return self.username
