@@ -1,0 +1,116 @@
+{
+  "dimensions": [
+    {
+      "name": "task",
+      "levels": [
+        {
+          "name": "task_title",
+          "label": "Task Title",
+          "attributes": [
+            "task_title"
+          ]
+        },
+        {
+          "name": "task_requester",
+          "label": "Requester"
+        }
+      ]
+    },
+    {
+      "name": "date",
+      "label": "Date",
+      "role": "time",
+      "levels": [
+        {
+          "name": "day",
+          "label": "Day"
+        },
+        {
+          "name": "hour",
+          "label": "Hour"
+        }
+      ]
+    },
+    {
+      "name":"worker",
+      "label":"Worker",
+      "levels":[
+        {
+          "name":"age",
+          "label":"Age"
+        },
+        {
+          "name":"nationality",
+          "label":"Nationality"
+        },
+        {
+          "name":"education",
+          "label":"Education"
+        }
+      ]
+    }
+  ],
+  "cubes": [
+    {
+      "name": "dashboard",
+      "label": "CrowdCur OLAP Server",
+      "dimensions": [
+        "task",
+        "date",
+        "worker"
+      ],
+      "measures": [
+        {
+          "name": "time_it_took",
+          "label": "Time Spent",
+          "aggregates":["min","max"]
+        },
+        {
+          "name": "task_payment",
+          "label": "Money Made",
+          "aggregates":["min","max"]
+        }
+      ],
+      "aggregates": [
+        {
+          "name":"count",
+          "label":"Task count",
+          "function":"count"
+        },
+        {
+          "name": "total_time",
+          "label": "Total time spent on tasks",
+          "function": "sum",
+          "measure": "time_it_took"
+        },
+        {
+          "name": "avg_time",
+          "label": "Average time spent on tasks",
+          "function": "avg",
+          "measure": "time_it_took"
+        },
+        {
+          "name": "total_payment",
+          "label": "Total money made on tasks",
+          "function": "sum",
+          "measure": "task_payment"
+        },
+        {
+          "name": "avg_payment",
+          "label": "Average money made on tasks",
+          "function": "avg",
+          "measure": "task_payment"
+        }
+      ],
+      "mappings": {
+        "task.task_title": "task_title",
+        "task.task_requester": "task_requester",
+        "worker.age" : "age",
+        "worker.nationality" : "nationality",
+        "worker.education" : "education",
+        "date.day":"day",
+        "date.hour" : "hour"
+      }
+    }
+  ]
+}

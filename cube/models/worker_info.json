@@ -1,0 +1,45 @@
+{
+  "name": "worker_info",
+  "label": "Worker Information",
+  "cubes": [
+    {
+      "name": "accounts_user",
+      "dimensions": [
+        "product",
+        "store"
+      ],
+      "joins": [
+        {
+          "master": "product_id",
+          "detail": "product.id"
+        },
+        {
+          "master": "store_id",
+          "detail": "store.id"
+        }
+      ]
+    }
+  ],
+  "dimensions": [
+    {
+      "name": "product",
+      "attributes": [
+        "code",
+        "name"
+      ]
+    },
+    {
+      "name": "store",
+      "attributes": [
+        "code",
+        "address"
+      ]
+    }
+  ],
+  "joins":[
+    {
+      "name":"task_specs",
+      "detail":
+    }
+  ]
+}

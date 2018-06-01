@@ -5,23 +5,29 @@
 {% endblock %}
 
 {% block content %}
-    <section class="section">
+    <section class="section section-orange">
         <div class="container">
             <div class="preference">
                 <div class="row">
                     <div class="title-area">
-                        <h3>
-                            Your Preferences
-                        </h3>
-                        <div class="separator separator-danger">✻</div>
-                        <div class="description">Please indicate your preference by drag and dropping items from the
-                            left list in the right list
-                        </div>
+                        <h1>
+                            We want your Explicit feedback!
+                        </h1>
+                        <hr class="brace">
+                        <p>We would like to better understand your preferences. We have identified the following factors for you that are contributing to your task completion.</p>
+
+                        <p>Please rank them according to your preference. It's not necessary to rank all of them.</p>
+
+{##}
+{#                        <div class="separator separator-danger">✻</div>#}
+{#                        <div class="description">Please indicate your preference by drag and dropping items from the#}
+{#                            left list in the right list#}
+{#                        </div>#}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-2"></div>
-                    <div class="col-sm-4 pref-list">
+                    <div class="col-sm-4 pref-list section-white">
                         <h3>Keywords : </h3>
                         <ol class="list-group list-group-sortable-connected">
                             {% for p in pref %}
@@ -31,7 +37,7 @@
                         </ol>
                     </div>
 
-                    <div class="col-sm-4 pref-list">
+                    <div class="col-sm-4 pref-list section-white">
                         <h3>Your Preferences : </h3>
                         <ol class="list-group list-group-sortable-connected" id="crowdcur_worker_feedback">
 
@@ -122,7 +128,7 @@
             $.ajax({
                     async: true,
                     url: '{% url 'feedback' %}',
-                    data: {"worker_pref[]":pref},
+                    data: {"worker_pref[]": pref},
                     dataType: 'json',
                     type: 'POST',
                     success: function (data) {

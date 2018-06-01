@@ -7,24 +7,35 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     {% for t in task_set %}
-                       {% include 'workinterface/_work_instance.html' with task=t only %}
+                        {% include 'workinterface/_work_instance.html' with task=t only %}
                     {% endfor %}
                     <div class="col-md-1"></div>
                 </div>
             {% endfor %}
         </div>
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+                <form action="{% url 'refresh' %}" method="get" class="form-horizontal">
+                    {% csrf_token %}
+                    <input type="submit" value="Refresh" class="btn btn-fill btn-lg btn-black"/>
+                </form>
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+
     </section>
 
 
 {% endblock %}
 
 {% block js %}
-<script type="text/javascript">
-    $(function() {
-       $(".card").click(function (e) {
+    <script type="text/javascript">
+        $(function () {
+            $(".card").click(function (e) {
 
-       });
-    });
+            });
+        });
 
-</script>
+    </script>
 {% endblock %}

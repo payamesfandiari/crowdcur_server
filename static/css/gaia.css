@@ -939,6 +939,10 @@ a,
   background-color: #FAFAFA;
 }
 
+.section-orange {
+  background-color: #fac564;
+}
+
 .section-gray {
   background-color: #EEEEEE;
   padding: 70px 0;
@@ -949,6 +953,7 @@ a,
   background-color: #2E3E51;
   padding: 70px 0;
 }
+
 
 
 .section-white {

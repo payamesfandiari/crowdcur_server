@@ -32,10 +32,10 @@ def log_worker_answer(request):
 def set_worker_shown_tasks(request):
     if request.is_ajax():
         worker = request.user
-        tasks = request.POST.get('tasks', None)
-        if tasks is not None:
-            tasks = tasks.split(',')
-            for t_uid in tasks:
+        worker_tasks = request.POST.get('tasks', None)
+        if worker_tasks is not None:
+            worker_tasks = worker_tasks.split(',')
+            for t_uid in worker_tasks:
                 task = Task.objects.get(task_uid=t_uid)
                 t, created = WorkerTaskHistoryModel.objects.get_or_create(task=task, worker=worker)
                 t.save()

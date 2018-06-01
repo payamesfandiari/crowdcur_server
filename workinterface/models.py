@@ -12,8 +12,9 @@ class JobManager(models.Manager):
         for key in keywords:
             for token in key.split(','):
                 token = token.strip(' ')
-                if token not in out:
+                if token not in out and token != '':
                     out.append(token)
+
         return out
 
 
@@ -44,3 +45,10 @@ class Answers(models.Model):
 
     def __str__(self):
         return "Task uid:{0} - Worker:{1} - Answer:{2}".format(self.task.task_uid,self.worker,self.content)
+
+
+class AssignedTaskSet(models.Model):
+    worker = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    tasks = models.ForeignKey(Task,on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_done = models.BooleanField(default=False)
