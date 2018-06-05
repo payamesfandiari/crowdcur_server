@@ -36,16 +36,17 @@ def get_time_spent(request):
 @login_required
 def get_pref_change(request):
     worker = request.user
+    worker_history = WorkerModelHistoryModel.objects.filter(worker=worker)
     model_history = WorkerModelHistoryModel.objects.filter(worker=worker).values('worker_model', 'timestamp').order_by(
         'timestamp')
     if model_history.count() < 2:
         return JsonResponse({'res': 0, 'message': ""})
     bounds = {}
     for mh in model_history:
-        bounds[WorkerTaskHistoryModel.objects.filter(timestamp__lt=mh['timestamp'], successful=True).count()] = mh[
+        bounds[worker_history.filter(timestamp__lt=mh['timestamp'], successful=True).count()] = mh[
             'worker_model']
 
-    bounds[WorkerTaskHistoryModel.objects.filter(successful=True).count()] = model_history.last()['worker_model']
+    bounds[worker_history.filter(successful=True).count()] = model_history.last()['worker_model']
 
     if len(bounds) < 2:
         return JsonResponse({'res': 0, 'message': ""})
