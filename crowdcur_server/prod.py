@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'workinterface.apps.WorkinterfaceConfig',
     'accounts.apps.AccountsConfig',
     'crowdcur.apps.CrowdcurConfig',
+    'etl.apps.EtlConfig',
     'background_task',
     'django_countries',
     'storages'
