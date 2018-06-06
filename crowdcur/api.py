@@ -36,7 +36,7 @@ def get_time_spent(request):
 @login_required
 def get_pref_change(request):
     worker = request.user
-    worker_history = WorkerModelHistoryModel.objects.filter(worker=worker)
+    worker_history = WorkerTaskHistoryModel.objects.filter(worker=worker)
     model_history = WorkerModelHistoryModel.objects.filter(worker=worker).values('worker_model', 'timestamp').order_by(
         'timestamp')
     if model_history.count() < 2:
@@ -58,7 +58,7 @@ def get_pref_change(request):
     keys = []
     br = []
     for b in bounds:
-        data = [u for u in sorted(bounds[b].items(), key=itemgetter(1), reverse=True)][0:3]
+        data = [u for u in sorted(bounds[b].items(), key=itemgetter(1), reverse=True)][0:4]
         overall = sum([abs(u[1]) for u in data])
         data = {u[0]: 100 * abs(u[1]) / overall for u in data}
         keys.extend(list(data.keys()))

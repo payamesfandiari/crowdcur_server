@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'workinterface.apps.WorkinterfaceConfig',
     'accounts.apps.AccountsConfig',
     'crowdcur.apps.CrowdcurConfig',
+    'etl.apps.EtlConfig',
     'estimators',
     'background_task',
     'debug_toolbar',

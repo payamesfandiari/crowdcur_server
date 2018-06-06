@@ -52,6 +52,7 @@
   ],
   "cubes": [
     {
+      "fact" : "etl_facttable",
       "name": "dashboard",
       "label": "CrowdCur OLAP Server",
       "dimensions": [
@@ -109,7 +110,7 @@
         "worker.nationality" : "nationality",
         "worker.education" : "education",
         "date.day":"day",
-        "date.hour" : "hour"
+        "date.hour" : "time_of_day"
       }
     }
   ]
