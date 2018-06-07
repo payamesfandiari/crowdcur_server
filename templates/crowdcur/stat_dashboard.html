@@ -1,0 +1,67 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+    Platform Statistics for {{ username }}
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'lib/font-awesome/css/font-awesome.css' %}" />
+    <link rel="stylesheet" href="{% static 'lib/angular-ui-grid/ui-grid.css' %}"/>
+    <link rel="stylesheet" href="{% static 'lib/nvd3/nv.d3.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/cubesviewer.css' %}"/>
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-submenu/css/bootstrap-submenu.min.css' %}"/>
+{% endblock %}
+{% block content %}
+    <section class="section section-header-freebie section-white">
+        <div class="container">
+            <div class="content">
+                <div class="row ">
+                    <div class="title-area">
+                        <h2>Platform Statistics</h2>
+                        <div class="separator separator-danger">✻</div>
+                        <div class="description">
+                            Here is our integrated OLAP server. You can use it to see details about the platform and get a better sense of what's happening behind the scene.
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="cubesviewer">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'lib/bootstrap-submenu/js/bootstrap-submenu.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/angular/angular.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/angular-cookies/angular-cookies.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/angular-ui-grid/ui-grid.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/d3/d3.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/nvd3/nv.d3.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/flotr2/flotr2.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/masonry/masonry.pkgd.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/cubesviewer.js' %}"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            //var cubesUrl = prompt ("Enter your Cubes Server URL\n(or try http://cubesdemo.cubesviewer.com)", "http://localhost:5000");
+            var cubesUrl = "http://localhost:5000";
+
+            cubesviewerStudio.init({
+                cubesUrl: cubesUrl,
+                container: $('#cubesviewer').get(0),
+                debug: true
+            });
+
+        });
+    </script>
+{% endblock %}

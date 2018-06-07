@@ -137,3 +137,7 @@ def get_accuracy(request):
         'data': [randint(10, 100) for u in range(5)]
     }
     return JsonResponse(out)
+
+
+class StatDashboardView(LoginRequiredMixin,generic.TemplateView):
+    template_name = 'crowdcur/stat_dashboard.html'

@@ -2,57 +2,163 @@
   "dimensions": [
     {
       "name": "task",
+      "label": "Tasks",
+      "description": "Details of tasks",
       "levels": [
         {
           "name": "task_title",
           "label": "Task Title",
+          "info": {},
+          "key": "task_title",
+          "label_attribute": "task_title",
+          "order_attribute": "task_title",
           "attributes": [
             "task_title"
           ]
         },
         {
           "name": "task_requester",
-          "label": "Requester"
+          "info": {},
+          "label": "Requester",
+          "key": "task_requester",
+          "label_attribute": "task_requester",
+          "order_attribute": "task_requester"
+        }
+      ],
+      "hierarchies": [
+        {
+          "name": "task",
+          "info": {},
+          "label": "Task",
+          "levels": [
+            "task_title",
+            "task_requester"
+          ]
         }
       ]
     },
     {
       "name": "date",
-      "label": "Date",
+      "label": "Task Completion Date",
       "role": "time",
       "levels": [
         {
+          "name": "year",
+          "info": {},
+          "label": "Year",
+          "role": "year",
+          "key": "year",
+          "label_attribute": "year",
+          "order_attribute": "year"
+        },
+        {
+          "name": "month",
+          "info": {},
+          "label": "Month",
+          "role": "month",
+          "key": "month",
+          "label_attribute": "month",
+          "order_attribute": "month"
+        },
+        {
           "name": "day",
-          "label": "Day"
+          "info": {},
+          "label": "Day",
+          "role": "day",
+          "key": "day",
+          "label_attribute": "day",
+          "order_attribute": "day",
+          "attributes": [
+            {
+              "name": "day",
+              "info": {},
+              "ref": "day",
+              "locales": []
+            }
+          ]
+        },
+        {
+          "name": "dow",
+          "info": {},
+          "label": "Day of week",
+          "role": "dow",
+          "key": "dow",
+          "label_attribute": "dow",
+          "order_attribute": "dow",
+          "attributes": [
+            {
+              "name": "dow"
+            }
+          ]
         },
         {
           "name": "hour",
-          "label": "Hour"
+          "info": {},
+          "label": "Hour",
+          "role": "hour",
+          "key": "hour",
+          "label_attribute": "hour",
+          "order_attribute": "hour",
+          "attributes": [
+            {
+              "name": "hour",
+              "info": {}
+            }
+          ]
+        }
+      ],
+      "hierarchies": [
+        {
+          "name": "daily",
+          "info": {},
+          "label": "Daily",
+          "levels": [
+            "year",
+            "month",
+            "day"
+          ]
+        },
+        {
+          "name": "hourly",
+          "info": {},
+          "label": "Hourly",
+          "levels": [
+            "day",
+            "hour"
+          ]
+        },
+        {
+          "name": "day_of_week",
+          "info": {},
+          "label": "Day of week",
+          "levels": [
+            "dow"
+          ]
         }
       ]
     },
     {
-      "name":"worker",
-      "label":"Worker",
-      "levels":[
+      "name": "worker",
+      "label": "Worker",
+      "levels": [
         {
-          "name":"age",
-          "label":"Age"
+          "name": "age",
+          "label": "Age"
         },
         {
-          "name":"nationality",
-          "label":"Nationality"
+          "name": "nationality",
+          "label": "Nationality"
         },
         {
-          "name":"education",
-          "label":"Education"
+          "name": "education",
+          "label": "Education"
         }
       ]
     }
   ],
   "cubes": [
     {
-      "fact" : "etl_facttable",
+      "fact": "etl_facttable",
       "name": "dashboard",
       "label": "CrowdCur OLAP Server",
       "dimensions": [
@@ -64,19 +170,29 @@
         {
           "name": "time_it_took",
           "label": "Time Spent",
-          "aggregates":["min","max"]
+          "aggregates": [
+            "sum",
+            "avg",
+            "min",
+            "max"
+          ]
         },
         {
           "name": "task_payment",
           "label": "Money Made",
-          "aggregates":["min","max"]
+          "aggregates": [
+            "sum",
+            "avg",
+            "min",
+            "max"
+          ]
         }
       ],
       "aggregates": [
         {
-          "name":"count",
-          "label":"Task count",
-          "function":"count"
+          "name": "count",
+          "label": "Task count",
+          "function": "count"
         },
         {
           "name": "total_time",
@@ -106,11 +222,14 @@
       "mappings": {
         "task.task_title": "task_title",
         "task.task_requester": "task_requester",
-        "worker.age" : "age",
-        "worker.nationality" : "nationality",
-        "worker.education" : "education",
-        "date.day":"day",
-        "date.hour" : "time_of_day"
+        "worker.age": "age",
+        "worker.nationality": "nationality",
+        "worker.education": "education",
+        "date.year" : "year",
+        "date.month" : "month",
+        "date.dow" : "day_of_week",
+        "date.day": "day",
+        "date.hour": "time_of_day"
       }
     }
   ]
