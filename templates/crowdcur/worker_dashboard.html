@@ -87,9 +87,8 @@
                 other similar workers.</p>
 
             <ul class="nav nav-tabs" id="similar-charts">
-                <li chart-type="task_type" class="active"><a data-toggle="tab" href="#home">Different Task Types</a>
-                </li>
-                <li chart-type="time_spent"><a data-toggle="tab" href="#menu1">Time Spent</a></li>
+                <li chart-type="task_type" class="active"><a data-toggle="tab" href="#home">Different Task Types</a></li>
+                <li chart-type="time"><a data-toggle="tab" href="#menu1">Time Spent</a></li>
                 <li chart-type="income"><a data-toggle="tab" href="#menu2">Income</a></li>
                 <li chart-type="accuracy"><a data-toggle="tab" href="#menu3">Accuracy</a></li>
             </ul>
@@ -104,17 +103,17 @@
                 <div id="menu1" class="tab-pane fade row">
                     <h3>Similar worker spent this much time on one different task types.</h3>
                     <div class="text-center">
-                        <canvas id="chart-time_spent" class="worker-chart-bar"></canvas>
+                        <canvas id="chart-time" class="worker-chart-bar"></canvas>
                     </div>
                 </div>
                 <div id="menu2" class="tab-pane fade row">
-                    <h3>Similar worker spent their time on these many tasks.</h3>
+                    <h3>Similar worker made this much money on different tasks.</h3>
                     <div class="text-center">
                         <canvas id="chart-income" class="worker-chart-bar"></canvas>
                     </div>
                 </div>
                 <div id="menu3" class="tab-pane fade row">
-                    <h3>Similar worker spent their time on these many tasks.</h3>
+                    <h3>Similar worker had this much accuracy on the tasks.</h3>
                     <div class="text-center">
                         <canvas id="chart-accuracy" class="worker-chart-bar"></canvas>
                     </div>
@@ -188,13 +187,13 @@
 
         CHART_TYPES = {
             'task_type': 'doughnut',
-            'time_spent': 'bar',
+            'time': 'bar',
             'income': 'bar',
             'accuracy': 'bar'
         };
         CHART_LABELS = {
             'task_type': {'x': 'Task Type', 'y': 'Number of completed tasks', 'display': false, 'legend_disply': true},
-            'time_spent': {'x': 'Task Type', 'y': 'Time spent in seconds', 'display': true},
+            'time': {'x': 'Task Type', 'y': 'Time spent in seconds', 'display': true},
             'income': {'x': 'Task Type', 'y': 'Money made', 'display': true},
             'accuracy': {'x': 'Task Type', 'y': 'Accuracy', 'display': true}
         };

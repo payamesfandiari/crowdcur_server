@@ -12,5 +12,6 @@ urlpatterns = [
     path('dashboard/get_income', views.get_income),
     path('dashboard/get_pref_change', api.get_pref_change, name='get_pref_change'),
     path('dashboard/get_time_spent', api.get_time_spent, name='get_time_spent'),
+    path('dashboard/get_time', views.get_time, name='get_time'),
     path('dashboard/get_accuracy', views.get_accuracy),
 ]

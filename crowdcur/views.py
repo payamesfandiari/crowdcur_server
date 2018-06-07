@@ -104,7 +104,7 @@ class WorkerFeedbackView(LoginRequiredMixin, generic.TemplateView):
 
 
 @login_required
-def get_time_spent(request):
+def get_time(request):
     out = {
         'labels': ['tweet analysis', 'sentiment analysis', 'tweet classification', 'image', 'image labeling'],
         'data': [randint(10, 100) for u in range(5)]
