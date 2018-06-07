@@ -23,7 +23,7 @@ def check_needs_update(worker):
         update_worker_model(worker.id)
 
 
-# @background(schedule=1)
+@background(schedule=1)
 def update_worker_model(worker_id):
     model = WorkerModel.objects.get(worker_id=worker_id)
     columns = {t['feature_name']:t['col_number'] for t in TaskFeatureMapping.objects.values()}
