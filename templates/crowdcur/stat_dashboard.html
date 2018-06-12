@@ -5,7 +5,7 @@
     Platform Statistics for {{ username }}
 {% endblock %}
 {% block css %}
-    <link rel="stylesheet" href="{% static 'lib/font-awesome/css/font-awesome.css' %}" />
+    <link rel="stylesheet" href="{% static 'lib/font-awesome/css/font-awesome.css' %}"/>
     <link rel="stylesheet" href="{% static 'lib/angular-ui-grid/ui-grid.css' %}"/>
     <link rel="stylesheet" href="{% static 'lib/nvd3/nv.d3.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/cubesviewer.css' %}"/>
@@ -20,10 +20,25 @@
                         <h2>Platform Statistics</h2>
                         <div class="separator separator-danger">✻</div>
                         <div class="description">
-                            Here is our integrated OLAP server. You can use it to see details about the platform and get a better sense of what's happening behind the scene.
+                            Here is our integrated OLAP server. You can use it to see details about the platform and get
+                            a better sense of what's happening behind the scene.
                         </div>
                     </div>
 
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="border: none; margin-top: 22px; margin-bottom: 22px;">
+                            <div id="cv-view-1" style="width: 100%; min-height: 120px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="border: none; margin-top: 22px; margin-bottom: 22px;">
+                            <div id="cv-view-2" style="width: 100%; min-height: 120px;"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -55,13 +70,21 @@
 
             //var cubesUrl = prompt ("Enter your Cubes Server URL\n(or try http://cubesdemo.cubesviewer.com)", "http://localhost:5000");
             var cubesUrl = "http://crowdcur.com:5000";
-
             cubesviewerStudio.init({
                 cubesUrl: cubesUrl,
+
                 container: $('#cubesviewer').get(0),
-                debug: true
+                debug: false
             });
 
+            var serializedView = '{"charttype":"bars-vertical","chartoptions":{"showLegend":true},"mode":"chart","drilldown":[],"cuts":[],"datefilters":[],"columnHide":{},"columnWidths":{"total_payment":184},"columnSort":{},"cubename":"dashboard","name":"CrowdCur OLAP Server (1)","xaxis":"task:task_title","yaxis":"avg_time"}';
+            var serializedView2 = '{"charttype":"bars-vertical","chartoptions":{"showLegend":true},"mode":"chart","drilldown":[],"cuts":[],"datefilters":[],"columnHide":{},"columnWidths":{"total_payment":184},"columnSort":{},"cubename":"dashboard","name":"CrowdCur OLAP Server (1)","xaxis":"task:task_title","yaxis":"avg_payment"}';
+            cubesviewer.apply(function () {
+                view1 = cubesviewer.createView("#cv-view-1", "cube", serializedView);
+            });
+            cubesviewer.apply(function () {
+                view2 = cubesviewer.createView("#cv-view-2", "cube", serializedView2);
+            });
         });
     </script>
 {% endblock %}

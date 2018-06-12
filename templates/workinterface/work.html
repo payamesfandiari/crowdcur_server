@@ -3,6 +3,20 @@
 {% block content %}
     <section class="section">
         <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-info fade in">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        <strong>
+                            Please choose a task to work on from the list below.
+
+                        </strong>
+                        <p>You can refresh if you don't like any of them.</p>
+                    </div>
+
+                </div>
+
+            </div>
             {% for task_set in tasks %}
                 <div class="row">
                     <div class="col-md-1"></div>
